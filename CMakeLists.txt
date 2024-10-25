@@ -9,9 +9,7 @@ set(CMAKE_CXX_STANDARD 11) # or 14, 17, 20 based on your requirements
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 add_executable(inheritance src/inheritance.cpp)
-add_executable(lambda src/lambda.cpp)
 add_executable(cast src/cast.cpp)
-
 
 # # Specify the source files for each executable
 # file(GLOB SOURCES "src/*.cpp")  # Collect all .cpp files in the src directory
