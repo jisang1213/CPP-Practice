@@ -64,19 +64,21 @@ protected:
     std::string sport_;
 };
 
-class StudentAthlete : public Student, public Athlete {
+class StudentAthlete final: public Student, public Athlete {
 public:
     // All three constructors should be called explicitly
     explicit StudentAthlete(std::string name, int age, int ID, std::string sport)
     : Person(name, age), Athlete(name, age, sport), Student(name, age, ID){}
 
-    // This needed to be overriden to avoid ambiguity
-    std::string getinfo() override {
+    // This needed to be overriden to avoid ambiguity. The final keyword prevents this function from
+    // being further overriden in derived classes (applies only to virtual functions)
+    std::string getinfo() override final {
         return Person::getinfo() + ", " + std::to_string(studentID_) + ", " + sport_;
     }
 };
 
-class Dog{
+// final keyword prevents another class inheriting from the Dog class
+class Dog final{
 public:
     explicit Dog(Person* owner, std::string name = "unknown") : owner_(owner), name_(name){}
     
