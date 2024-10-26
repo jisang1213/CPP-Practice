@@ -10,7 +10,8 @@ int c = int(a);
 double x = 3.14;
 int y = static_cast<int>(x);  // Converts double to int (truncates decimal part)
 
-/* Dynamics casts are used to downcast from a base class to a derived class and 
+/*
+Dynamics casts are used to downcast from a base class to a derived class and 
 you want to ensure the actual object type before calling derived class-specific functions.
 Upcasting is always safe (Derived -> Base)
 For dynamic_cast to work, the class must have at least one virtual function.

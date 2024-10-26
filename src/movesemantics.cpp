@@ -1,6 +1,13 @@
 #include <iostream>
 #include <cstring>
 
+/*
+Rule of zero, three, five are important concepts when creating classes in C++
+
+There are two different types of value: L values and R values
+
+*/
+
 class String {
 private:
     char* data; // Pointer to hold the string data

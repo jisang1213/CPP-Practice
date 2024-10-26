@@ -5,11 +5,14 @@ cmake_minimum_required(VERSION 3.10)
 project(MultiExecutableProject VERSION 1.0)
 
 # Specify the C++ standard
-set(CMAKE_CXX_STANDARD 11) # or 14, 17, 20 based on your requirements
+set(CMAKE_CXX_STANDARD 14) # or 14, 17, 20 based on your requirements
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 add_executable(inheritance src/inheritance.cpp)
 add_executable(cast src/cast.cpp)
+add_executable(class src/class.cpp)
+add_executable(smartpointers src/smartpointers.cpp)
+
 
 # # Specify the source files for each executable
 # file(GLOB SOURCES "src/*.cpp")  # Collect all .cpp files in the src directory

@@ -1,5 +1,13 @@
 #include <iostream>
 
+/* To Cover:
+private, protected, public inheritance
+virtual inheritance (to solve diamond inheritance problem)
+virtual functions and overriding
+virtual destructors for proper deallocation of memory
+pure virtual classes
+*/
+
 class Base{
 public:
     void print(){
