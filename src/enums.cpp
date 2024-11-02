@@ -31,8 +31,6 @@ enum class Status : unsigned int {
 };
 
 // enums can also have char values:
-#include <iostream>
-
 enum class Direction : char { 
     North = 'N', 
     South = 'S', 

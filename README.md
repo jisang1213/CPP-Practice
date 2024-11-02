@@ -1,4 +1,4 @@
-# Repository for learning C++
+# Repository for Learning C++
 
 ## Topics Covered:
 
