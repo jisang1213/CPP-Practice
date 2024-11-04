@@ -1,10 +1,18 @@
 #include <iostream>
 #include <string>
+
+/*
+This file demonstrates C++ style casting
+*/
+
 // C-style casts
+
 double a = 3.14;
 int b = (int)a;
 //or
 int c = int(a);
+
+// C++ Style Casts:
 
 // static casts are used for compatible types
 double x = 3.14;
