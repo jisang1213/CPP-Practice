@@ -17,9 +17,31 @@
 - map
 */
 
+void print(std::vector<int>& vec){
+    for (const auto& x : vec){
+        std::cout << x << ", ";
+    }
+    std::cout << std::endl; 
+}
+
 int main(){
     // Vectors
-    std::vector vector = {1,2,3,4};
+    std::vector vec = {1,2,3,4};
+    print(vec);
+    vec.clear(); // This removes all elements and makes the size to 0. The capacity is unchanged
+    std::cout << "The size of the vector is: " << vec.size() << "\n";
+    std::cout << "The capacity of the vector is: " << vec.capacity() << "\n";
+    vec.shrink_to_fit(); // This shrinks the capacity to the size (compiler may ignore)
+    std::cout << "The capacity of the vector is: " << vec.capacity() << "\n";
+
+    // Use of assign to complete replace the contents of a vector
+    vec.assign({10,20});
+    print(vec);
+    vec.assign(5,42); // Replace with 5 copies of 42
+    print(vec);
+    std::vector source = {1,2,3,4,5,6};
+    vec.assign(source.begin(), source.end()); // You can pass the iterators of another vector to copy it
+    print(vec);
 
     // Dequeue (double-ended queue sequence container)
     std::deque<int> dq = {1,2,3};
@@ -113,13 +135,25 @@ int main(){
     for(const auto& pair : map){
         std::cout << "Key: " << pair.first << " Value: " << pair.second << std::endl;
     }
-    // Check if a key exists in the map
-    if(map.find(2) != map.end()){
-        std::cout << "Key 3 found in the map" << std::endl;
+    // Check if a key exists in the map - find() returns an iterator to the pair
+    auto it = map.find(2);
+    if(it != map.end()){
+        std::cout << "Key 2 found in the map with value: " << it->second << std::endl;
+    }
+    else{
+        std::cout << "Key 2 not found in the map" << std::endl;
     }
     // Erase key value pairs
     map.erase(2);
     std::cout << "The size of the map is: " << map.size() << std::endl;
 
-    // Unordered map - hashtable version of map. Same API, just no specific order.
+    // We can also use the at() method if we expect the key to exist - exception is thrown if key does not exist
+    try{
+        std::cout << "Value for key 2: " << map.at(2) << "\n";
+    }
+    catch(const std::out_of_range& e){
+        std::cerr << "Error: " << e.what() << std::endl;
+    }
+
+    // Unordered map - hashtable version of map. Same API, just no specific order of the keys
 }
