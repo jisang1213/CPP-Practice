@@ -17,7 +17,7 @@ public:
     // Three explicit constructors for Person
     explicit Person(std::string name = "unknown", int age = -1) : name_(name), age_(age){}
     explicit Person(int age) : name_("unknown"), age_(age){}
-    // Friend class declaration allows Dog classs to access private and protected members of Person class
+    // Friend class declaration allows Dog class to access private and protected members of Person class
     friend class Dog;
     /*
     Always declare a virtual destructor to ensure the derived class destructors are called when 
@@ -35,7 +35,7 @@ private:
 };
 
 /*
-Virtual inhertiance ensures that one once instance of the base class is created when the 
+Virtual inheritance ensures that one once instance of the base class is created when the 
 StudentAthlete class is created
 */
 class Student : virtual public Person {
