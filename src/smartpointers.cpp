@@ -1,6 +1,8 @@
 #include <iostream>
 #include <memory>  // Required for smart pointers
 
+// Refer to "custom.hpp" for a custom implementation of smart pointers
+
 /*
 Smart pointers help manage memory automatically, reduce the risk of memory leaks, 
 and improve code safety and maintainability.
