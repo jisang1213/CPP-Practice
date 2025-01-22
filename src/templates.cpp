@@ -19,23 +19,35 @@ T sub(T a, T b){
 
 // Template classes with generic type
 template <typename T>
-class MyClass {
+class MyClass1 {
 public:
     void info() { std::cout << "Generic version\n"; }
 };
 
 // Full specialization for type int
 template <>
-class MyClass<int> {
+class MyClass1<int> {
 public:
     void info() { std::cout << "Specialized version for int\n"; }
 };
 
 // Full specialization for type double
 template <>
-class MyClass<double> {
+class MyClass1<double> {
 public:
     void info() { std::cout << "Specialized version for double\n"; }
+};
+
+/*
+You can create a template that takes both a type (typename) and a non-type parameter (size_t, or any constant value).
+This allows you to write more generic code, where one template parameter is a type and the other is a compile-time 
+constant value (like size_t).
+*/
+template <typename T, size_t N>
+class MyClass2 {
+public:
+    T arr[N];  // Array of type T with size N
+    size_t getSize() const { return N; }
 };
 
 // Template class with multiple types
@@ -77,7 +89,6 @@ public:
         std::cout << "first: " << first << ", second: " << second << " (same types)" << std::endl;
     }
 };
-
 
 // Variadic templates (introduced in C++11)
 // Base case (only one arg)
@@ -137,17 +148,22 @@ auto sum_fold(Args... args){
     return (... + args);
 }
 
+
 int main(){
     std::cout << add(1,2) << std::endl; 
     std::cout << sub(1,2) << std::endl;
 
-    MyClass<long> instance1;
-    MyClass<int> instance2;
-    MyClass<double> instance3;
+    MyClass1<long> instance1;
+    MyClass1<int> instance2;
+    MyClass1<double> instance3;
 
     instance1.info();
     instance2.info();
     instance3.info();
+
+    // Create a MyClass instance with int type and size 10
+    MyClass2<int, 10> myObject;
+    std::cout << "Array size: " << myObject.getSize() << std::endl;  // Output: 10
 
     Pair pair1(1.0, "hello");
     pair1.print();
