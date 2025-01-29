@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <atomic> // For thread-safe access to reference counters
 
 namespace Custom{
 
@@ -44,7 +45,7 @@ namespace Custom{
             }
             return ptr;
         }
-        T* get() const { 
+        T* get() const {
             return ptr;
         }
 
@@ -63,6 +64,10 @@ namespace Custom{
         }
     };
 
+    // Forward declaration of weak_ptr
+    template <typename T>
+    class weak_ptr;
+
     // Custom shared_ptr
     template <typename T>
     class shared_ptr{
@@ -70,14 +75,22 @@ namespace Custom{
         // Control block to store the pointer and reference counts
         struct ControlBlock{
             T* ptr;     // Pointer to the resource
-            int ref_count; // Strong reference count
-            int weak_count; // Weak reference count
+            std::atomic<int> ref_count; // Strong reference count
+            std::atomic<int> weak_count; // Weak reference count
             
             ControlBlock(T* p) : ptr(p), ref_count(1), weak_count(0) {}
             ~ControlBlock() { delete ptr; }
-        };
+        } *control_block; // Pointer to ControlBlock struct
 
-        ControlBlock* control_block;
+    private:
+        void release(){
+            if(control_block && --control_block->ref_count==0){
+                delete control_block->ptr;
+                if(control_block->weak_count==0){
+                    delete control_block;
+                }
+            }
+        }
 
     public:
         // Contructor
@@ -85,9 +98,7 @@ namespace Custom{
 
         // Destructor
         ~shared_ptr() {
-            if(control_block && --control_block->ref_count==0){
-                delete control_block;
-            }
+            release();
         }
 
         // Copy constructor
@@ -97,12 +108,17 @@ namespace Custom{
             }
         }
 
+        // Copy constructor from weak_ptr
+        shared_ptr(const weak_ptr<T>& weak) : control_block(weak.control_block) {
+            if(control_block){
+                ++control_block->ref_count;
+            }
+        }
+
         // Copy assignment operator
         shared_ptr& operator=(const shared_ptr& other) noexcept {
             if(this != &other){
-                if(control_block && --control_block->ref_count==0){
-                    delete control_block;
-                }
+                release(); // Since the current instance is being overwritten
                 control_block = other.control_block;
                 if(control_block){
                     ++control_block->ref_count;
@@ -119,9 +135,7 @@ namespace Custom{
         // Move assignment operator
         shared_ptr& operator=(shared_ptr&& other) noexcept {
             if(this != &other){
-                if(control_block && --control_block->ref_count==0){
-                    delete control_block;
-                }
+                release();
                 control_block = other.control_block;
                 other.control_block = nullptr;
             }
@@ -145,21 +159,19 @@ namespace Custom{
         }
 
         // Raw pointer
-        T* get(){
+        T* get() const {
             return control_block ? control_block->ptr : nullptr;
         }
 
         // Reset shared pointer
         void reset(T* new_ptr = nullptr){
-            if(control_block && --control_block->ref_count==0){
-                delete control_block;
-            }
+            release();
             control_block = new_ptr ? new ControlBlock(new_ptr) : nullptr;
         }
 
         // Get reference count
-        int use_count(){
-            return control_block ? control_block->ref_count : 0;
+        int use_count() const {
+            return control_block ? control_block->ref_count.load() : 0;
         }
 
         // Explicit conversion to bool
@@ -167,7 +179,56 @@ namespace Custom{
             return control_block && control_block->ptr;
         }
 
+        friend class weak_ptr<T>;
     };
 
-}
+    // Weak pointer (non-owning reference to an object managed by shared pointer)
+    template <typename T>
+    class weak_ptr{
+    private:
+        typename shared_ptr<T>::ControlBlock* control_block;
 
+    private:
+        void release(){
+            if(control_block && --control_block->weak_count==0 && control_block->ref_count==0){
+                delete control_block;
+            }
+        }
+    
+    public:
+        // Contructor
+        weak_ptr() : control_block(nullptr) {}
+
+        // Contructor from shared pointer
+        weak_ptr(const shared_ptr<T>& shared) : control_block(shared.control_block) {
+            if(control_block){
+                ++control_block->weak_count;
+            }
+        }
+
+        // Destructor
+        ~weak_ptr(){
+            release();
+        }
+
+        // Copy constructor
+        weak_ptr(const weak_ptr& other) : control_block(other.control_block) {
+            if(control_block){
+                ++control_block->weak_count;
+            }
+        }
+
+        // Move constructor
+        weak_ptr(weak_ptr&& other) noexcept : control_block(other.control_block) {
+            other.control_block = nullptr;
+        }
+
+        // Lock: Create a shared_ptr if the resource is still valid
+        shared_ptr<T> lock() const {
+            if(control_block && control_block->ref_count > 0){
+                return shared_ptr<T>(*this);
+            }
+            return shared_ptr<T>(); // otherwise return an empty shared pointer
+        }
+    };
+}

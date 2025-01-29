@@ -50,6 +50,12 @@ int main(){
     std::cout << capturebyvalue() << std::endl;
     // Outputs: 40
 
+    // If you want to modify a value captured by value, you need to use the 'mutable' keyword
+    auto modify = [=]() mutable {
+        x = 10;
+        std::cout << x << std::endl;
+    };
+
     // You can also do capture initialization:
     int a = 5;
     auto captureinit = [b = a + 10]() { return b; }; // b is initialized to a + 10

@@ -129,12 +129,22 @@ int main(){
     map[0] = "Apple";
     map[1] = "Banana";
     map[2] = "Cherry";
-    // Or use insert()
+    // Or use insert() with {}
     map.insert({4, "Date"});
-    // Print the key value pairs in the map
-    for(const auto& pair : map){
-        std::cout << "Key: " << pair.first << " Value: " << pair.second << std::endl;
+    // Or use insert() with std::make_pair();
+    map.insert(std::make_pair(5, "Orange"));
+
+    // Accesing the map via a key (without inserting a new value)
+    try{
+        std::cout << "Value for key 2: " << map.at(2) << "\n"; // exception is thrown if key does not exist
     }
+    catch(const std::out_of_range& e){
+        std::cerr << "Error: " << e.what() << std::endl;
+    }
+
+    // Wrong way:
+    std::string sample = map[6]; // This will not only access but also insert a default value
+
     // Check if a key exists in the map - find() returns an iterator to the pair
     auto it = map.find(2);
     if(it != map.end()){
@@ -143,17 +153,20 @@ int main(){
     else{
         std::cout << "Key 2 not found in the map" << std::endl;
     }
-    // Erase key value pairs
-    map.erase(2);
-    std::cout << "The size of the map is: " << map.size() << std::endl;
 
-    // We can also use the at() method if we expect the key to exist - exception is thrown if key does not exist
-    try{
-        std::cout << "Value for key 2: " << map.at(2) << "\n";
+    // Print the key value pairs in the map
+    for(const auto& pair : map){
+        std::cout << "Key: " << pair.first << " Value: " << pair.second << std::endl;
     }
-    catch(const std::out_of_range& e){
-        std::cerr << "Error: " << e.what() << std::endl;
+
+    // It is better to use structure bindings for clarity
+    for(const auto& [key, value] : map){
+        std::cout << "Key: " << key << " Value: " << value << std::endl;
     }
+
+    // Erase key value pairs
+    map.erase(2); 
+    std::cout << "The size of the map is: " << map.size() << std::endl;
 
     // Unordered map - hashtable version of map. Same API, just no specific order of the keys
 }

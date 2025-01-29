@@ -46,7 +46,8 @@ namespace example3{
     }
 }
 
-using namespace example2;
+using namespace example2; // after this, we can use elements from the example2 namespace without the prefix example2::
+// This applies until the end of the current scope
 
 int main(){
     // Global variables
