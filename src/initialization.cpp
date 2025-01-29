@@ -1,6 +1,7 @@
 #include <iostream>
 #include <initializer_list>
 #include <string>
+#include <vector>
 /*
 This file demonstrates different ways to initilaize objects and modern C++ conventions like
 uniform initialization (e.g. int i{};).
@@ -29,17 +30,25 @@ int main(){
 
     class MyClass {
     public:
-        MyClass(int value) : value(value) {}
+        MyClass(int value) : value1_(value), value2_(value+1) {}
+        // Members in the initializer list are initialized in the order declared below not order listed.
     private:
-        int value;
+        int value1_;
+        int value2_;
     };
     MyClass obj{42};     // Calls the constructor with argument 42
 
     class MyVector {
     public:
         MyVector(std::initializer_list<int> init) {
-            // Handle initialization
+            // Handle initialization using range based for-loop
+            for(const int& x : init){
+                vec_.push_back(x);
+            }
+            // Alternative we can use iterators explicitly (effectively same from compiler perspective)
         }
+    private:
+        std::vector<int> vec_; // Inner container just for sake of simplicity
     };
     MyVector vec{1, 2, 3, 4}; // Initializes MyVector with an initializer list
 
