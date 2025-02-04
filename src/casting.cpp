@@ -68,9 +68,13 @@ int main(){
 
     Animal* animal = new Dog();  // A base class pointer holding a derived class object.
 
-    // Attempt to cast the Animal pointer to a Dog pointer.
-    Dog* dogPtr = dynamic_cast<Dog*>(animal);
+    // Dynamic casting (always safe for upcasting, but not for downcasting)
+    // Only works with classes that have at least one virtual function. 
 
+    // Attempt to cast the Animal pointer to a Dog pointer.
+    Dog* dogPtr = dynamic_cast<Dog*>(animal); // Safe cast attempt
+
+    // Returns nullptr if the cast fails.
     if (dogPtr) {
         dogPtr->bark();  // Safe to call Dog-specific methods.
     } else {
