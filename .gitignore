@@ -1,2 +1,4 @@
-/build/
-/algo/
+**/build/
+CMakeLists.txt
+.vscode/
+.DS_Store

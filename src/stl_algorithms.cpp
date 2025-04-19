@@ -7,8 +7,12 @@
 /* This file demontrates STL algorithms
 
 Non-Modifying Algorithms:
+
 std::find	Finds the first occurrence of a value in a range.	
 std::find(vec.begin(), vec.end(), 5);
+
+std::find_if Finds the first occurent of a value that matches a predicate in a range.
+std::find_if(vec.begin(), vec.end(), [](int x){ return x % 2 == 0});
 
 std::count	Counts the occurrences of a value in a range.	
 std::count(vec.begin(), vec.end(), 5);
@@ -23,7 +27,8 @@ std::none_of	Checks if no element satisfies a condition.
 std::none_of(vec.begin(), vec.end(), [](int x){ return x < 0; });
 
 
-Modifying Algorithms
+Modifying Algorithms:
+
 std::copy	Copies elements from one range to another.	
 std::copy(src.begin(), src.end(), dest.begin());
 
@@ -40,7 +45,7 @@ std::remove	Removes elements matching a value (logical removal).
 std::remove(vec.begin(), vec.end(), 5);
 
 
-Other algorithms:
+Other Algorithms:
 
 std::for_each operates on each element in a range.
 std::for_each(vec.begin(), vec.end(), [](int &n){n*=2;});
@@ -59,6 +64,7 @@ std::min_element(vec.begin(), vec.end());
 
 std::max_element	Finds the largest element in a range.	
 std::max_element(vec.begin(), vec.end());
+std::max_element(vec.begin(), vec.end(), [](const int& a, const int& b){ return a < b; }); // With custom comparator
 */
 
 void print(std::vector<int>& vec){
@@ -73,8 +79,16 @@ int main(){
     // Find the first instance of 5
     auto it = std::find(vec.begin(), vec.end(), 5);
     // Modify the value of iterator:
-    *it = 19;
+    if(it != vec.end()){
+        *it = 19;
+    }
     print(vec);
+
+    // Find the first element that matches a predicate
+    it = std::find_if(vec.begin(), vec.end(), [](int x){ return x % 2 == 0; }); // First even number
+    if(it != vec.end()){
+        std::cout << "First even number is: " << *it << std::endl;
+    }
 
     // Use of std::count
     auto count = std::count(vec.begin(), vec.end(), 10);

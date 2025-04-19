@@ -1,6 +1,9 @@
 #include <iostream>
 #include <stdexcept>
 
+/*
+This is an implementation of a simple but inefficient vector
+*/
 template<typename T>
 class Vector {
 private:

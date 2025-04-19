@@ -6,9 +6,11 @@ Some of these include:
 - using
 - typedef
 - define
+- pragma
 - inline
 - volatile
 - constexpr
+- consteval
 - noexcept
 
 Attributes:
