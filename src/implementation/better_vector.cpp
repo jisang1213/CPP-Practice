@@ -10,6 +10,10 @@ This is an example of a memory efficient vector
 #include <initializer_list>
 #include <stdexcept> // std::out_of_range exception
 #include <cassert>
+#include <iterator>
+#include <algorithm>
+#include <cassert>
+#include <vector>
 
 template <typename T, typename Alloc = std::allocator<T>>
 class Vector{
@@ -239,15 +243,30 @@ public:
         return data_[i];
     }
 
+    using iterator = T*;
+    using const_iterator = const T*;
+    using reverse_iterator = std::reverse_iterator<iterator>;
+    using const_reverse_iterator = std::reverse_iterator<const_iterator>;
+
     // Mutable iterators
-    T* begin() { return data_; }
-    T* end(){ return data_ + size_; }
+    iterator begin() noexcept { return data_; }
+    iterator end() noexcept { return data_ + size_; }
     // Const iterators
-    const T* begin() const { return data_; }
-    const T* end() const { return data_ + size_; }
+    const_iterator begin() const noexcept { return data_; }
+    const_iterator end() const noexcept { return data_ + size_; }
     // Read only iterators
-    const T* cbegin() const { return data_; }
-    const T* cend() const { return data_ + size_; }
+    const_iterator cbegin() const noexcept { return data_; }
+    const_iterator cend() const noexcept { return data_ + size_; }
+
+    // Mutable reverse iterator
+    reverse_iterator rbegin() noexcept { return reverse_iterator(end()); }
+    reverse_iterator rend() noexcept { return reverse_iterator(begin()); }
+    // Const reverse iterators
+    const_reverse_iterator rbegin() const noexcept { return const_reverse_iterator(end()); }
+    const_reverse_iterator rend() const noexcept { return const_reverse_iterator(begin()); }
+    // Read only reverse iterators
+    const_reverse_iterator crbegin() const noexcept { return const_reverse_iterator(end()); }
+    const_reverse_iterator crend() const noexcept { return const_reverse_iterator(begin()); }
 
     size_t capacity() const noexcept { return capacity_; }
     size_t size() const noexcept { return size_; }
@@ -349,6 +368,43 @@ void test_at_exception() {
     assert(thrown);
 }
 
+void test_iterators(){
+    // Prepare and test forward iteration
+    Vector<int> v;
+    for (int i = 1; i <= 5; ++i) v.push_back(i);
+    for (int i = 0; i < 5; ++i)
+        assert(*(v.begin() + i) == i + 1);
+
+    // Test const forward iteration
+    const Vector<int>& cv = v;
+    for (int i = 0; i < 5; ++i)
+        assert(*(cv.cbegin() + i) == i + 1);
+
+    // Test range-based for
+    int idx = 1;
+    for (auto x : v)
+        assert(x == idx++);
+
+    // Test reverse iteration
+    std::vector<int> expected_rev = {5, 4, 3, 2, 1};
+    idx = 0;
+    for (auto rit = v.rbegin(); rit != v.rend(); ++rit)
+        assert(*rit == expected_rev[idx++]);
+
+    // Test const reverse iteration
+    idx = 0;
+    for (auto rit = v.crbegin(); rit != v.crend(); ++rit)
+        assert(*rit == expected_rev[idx++]);
+
+    // Test compatibility with std::sort (random-access requirement)
+    Vector<int> v2;
+    for (int x : {3,1,4,1,5}) v2.push_back(x);
+    std::sort(v2.begin(), v2.end());
+    std::vector<int> expected_sorted = {1,1,3,4,5};
+    for (size_t i = 0; i < v2.size(); ++i)
+        assert(v2.begin()[i] == expected_sorted[i]);
+}
+
 int main() {
     test_default_ctor();
     test_push_pop();
@@ -357,6 +413,7 @@ int main() {
     test_copy_move();
     test_swap();
     test_at_exception();
+    test_iterators();
 
     std::cout << "All Vector<> tests passed!\n";
     return 0;

@@ -3,7 +3,6 @@
 #include <atomic> // For thread-safe access to reference counters
 
 namespace Custom{
-
     // Custom unique_ptr
     template <typename T>
     class unique_ptr{

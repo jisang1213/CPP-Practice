@@ -1,8 +1,0 @@
-#include <ranges>
-
-
-int main(){
-
-
-
-}
