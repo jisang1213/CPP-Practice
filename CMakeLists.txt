@@ -16,6 +16,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 # add_executable(memory src/memory.cpp)
 add_executable(vector src/implementation/better_vector.cpp)
 add_executable(ranges src/ranges.cpp)
+add_executable(spaceship src/spaceship.cpp)
 # # Specify the source files for each executable
 # file(GLOB_RECURSE SOURCES "src/**/*.cpp") # Collect all .cpp files in the src directory
 # # Loop through each source file and create an executable
