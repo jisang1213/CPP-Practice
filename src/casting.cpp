@@ -32,23 +32,21 @@ Cast is checked for validity at run time
 class Animal {
 public:
     virtual void sit() { std::cout << "sat down" << std::endl; }
-    void roll() {std::cout << "rolling" << std::endl; }
+    void roll() { std::cout << "rolling" << std::endl; }
     virtual ~Animal() {}  // At least one virtual function is required for polymorphism.
 };
 
 class Dog : public Animal {
 public:
     void sit() override {std::cout << "dog sat down" << std::endl; }
-    void roll() {std::cout << "dog rolling" << std::endl; }
-    void bark() { std::cout << woof << std::endl; }
-private:
-    std::string woof = "Woof!";
+    void roll() { std::cout << "dog rolling" << std::endl; }
+    void bark() { std::cout << "Woof!" << std::endl; }
 };
 
 class Cat : public Animal {
 public:
-    void sit() override {std::cout << "cat sat down" << std::endl; }
-    void roll() {std::cout << "cat rolling" << std::endl; }
+    void sit() override { std::cout << "cat sat down" << std::endl; }
+    void roll() { std::cout << "cat rolling" << std::endl; }
     void meow() { std::cout << "Meow!\n"; }
 };
 

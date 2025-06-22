@@ -8,9 +8,10 @@
 - Scope and namespace
 - Const correctness
 - Template programming (function/class templates, specialization, variadic templates, etc.)
+- Template metaprogramming for compile time evaluation
 - Dynamic allocation (new, placement new, custom allocators, etc.)
 - Pointers(raw pointers, smart pointers)
-- Multithreading (threads and mutexes)
+- Multithreading (threads, mutexes, semaphores, thread pools, object pools, condition variables)
 - Exception handling (try, catch, throw)
 - Value categories and move semantics
 - Universal/forwarding references (std::forward)

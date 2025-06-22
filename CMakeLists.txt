@@ -1,5 +1,5 @@
 # CMake version requirement
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.14)
 
 # Project name and version
 project(MultiExecutableProject VERSION 1.0)
@@ -14,9 +14,16 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 # add_executable(templates src/templates.cpp)
 # add_executable(func src/functions.cpp)
 # add_executable(memory src/memory.cpp)
-add_executable(vector src/implementation/better_vector.cpp)
-add_executable(ranges src/ranges.cpp)
-add_executable(spaceship src/spaceship.cpp)
+# add_executable(vector src/implementation/better_vector.cpp)
+# add_executable(ranges src/ranges.cpp)
+# add_executable(spaceship src/spaceship.cpp)
+# add_executable(tmp src/tmp.cpp)
+# add_executable(virtual src/implementation/virtual.cpp)
+# add_executable(fold src/implementation/fold.cpp)
+# add_executable(string src/implementation/string.cpp)
+add_executable(threads src/threads.cpp)
+
+
 # # Specify the source files for each executable
 # file(GLOB_RECURSE SOURCES "src/**/*.cpp") # Collect all .cpp files in the src directory
 # # Loop through each source file and create an executable

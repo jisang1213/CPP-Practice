@@ -5,6 +5,7 @@
 #include <compare>
 #include <iostream>
 #include <string>
+#include <limits>
 
 struct Person{
     std::string name;
@@ -19,7 +20,7 @@ struct Person{
     2. Else if any yields weak_ordering, you get weak_ordering.
     3. Otherwise you get strong_ordering.
 
-                Equivalent values are... , incomparable values are...:
+                      Equivalent values are... , incomparable values are...:
     std::strong_ordering	indistinguishable, not allowed
     std::weak_ordering	distinguishable, 	not allowed
     std::partial_ordering 	distinguishable, 	allowed
@@ -75,10 +76,17 @@ using namespace std;
 int main(){
     int   x, y;
     auto c1 = (x <=> y);           // std::strong_ordering
+    static_assert(std::is_same_v<decltype(c1), std::strong_ordering>);
+
     double p, q;
     auto c2 = (p <=> q);           // std::partial_ordering
+    static_assert(std::is_same_v<decltype(c2), std::partial_ordering>);
+
     auto c3 = (U{1} <=> U{2});     // std::strong_ordering
-    auto c4 = (V{1,0.0} <=> V{1,NAN}); // std::partial_ordering
+    static_assert(std::is_same_v<decltype(c3), std::strong_ordering>);
+
+    auto c4 = (V{1,0.0} <=> V{1, std::numeric_limits<double>::quiet_NaN()}); // std::partial_ordering
+    static_assert(std::is_same_v<decltype(c4), std::partial_ordering>);
 
     // std::weak_ordering is never produced by built-in <=> (only for custom <=>)
     // std::weak_ordering w = /*…*/;
