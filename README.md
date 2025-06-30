@@ -9,6 +9,7 @@
 - Const correctness
 - Template programming (function/class templates, specialization, variadic templates, etc.)
 - Template metaprogramming for compile time evaluation
+- Curiously recurring template pattern (CRTP) for static polymorphism
 - Dynamic allocation (new, placement new, custom allocators, etc.)
 - Pointers(raw pointers, smart pointers)
 - Multithreading (threads, mutexes, semaphores, thread pools, object pools, condition variables)

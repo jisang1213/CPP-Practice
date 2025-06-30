@@ -5,7 +5,7 @@ cmake_minimum_required(VERSION 3.14)
 project(MultiExecutableProject VERSION 1.0)
 
 # Specify the C++ standard
-set(CMAKE_CXX_STANDARD 23) # or 14, 17, 20 based on your requirements
+set(CMAKE_CXX_STANDARD 20) # or 14, 17, 20 based on your requirements
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 # add_executable(stl_algorithms src/stl_algorithms.cpp)
@@ -21,7 +21,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 # add_executable(virtual src/implementation/virtual.cpp)
 # add_executable(fold src/implementation/fold.cpp)
 # add_executable(string src/implementation/string.cpp)
-add_executable(threads src/threads.cpp)
+# add_executable(threads src/threads.cpp)
+add_executable(crtp src/crtp.cpp)
 
 
 # # Specify the source files for each executable
