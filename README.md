@@ -1,12 +1,11 @@
 # Repository for Learning C++
 
-## Topics Covered:
+## Topics:
 
-- Casting (static_cast, dynamic_cast, reinterpret_cast)
+- Scope and namespace
+- Const correctnessCasting (static_cast, dynamic_cast, reinterpret_cast)
 - Classes (public, private, protected inheritance, virtual functions, virtual classes, etc.)
 - Enums (standard enums, scoped enums)
-- Scope and namespace
-- Const correctness
 - Template programming (function/class templates, specialization, variadic templates, etc.)
 - Template metaprogramming for compile time evaluation
 - Curiously recurring template pattern (CRTP) for static polymorphism
@@ -21,6 +20,6 @@
 - Functions (raw function pointers, lambdas, std::function, std::bind, std::ref, std::cref)
 - Ranges and views
 - Spaceship operator
-- Asynchronous programming (futures and promises)
+- Asynchronous programming (std::asyc, std::future and std::promise)
 - Keywords and attributes
 - Other C++ features

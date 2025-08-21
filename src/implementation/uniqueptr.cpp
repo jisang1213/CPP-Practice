@@ -10,26 +10,26 @@ namespace JS{
         // Constructor
         unique_ptr(T* ptr) : ptr_(ptr){}
         // Destructor
-        ~unique_ptr() noexcept {
-            delete ptr_;
+        ~unique_ptr() {
+            if(ptr_) delete ptr_;
         }
-        // Delete the copy constructor
-        unique_ptr(const unique_ptr& other) = delete;
         // Move constructor
         unique_ptr(unique_ptr&& other) noexcept {
             ptr_ = std::exchange(other.ptr_, nullptr);
         }
-        // Delete the copy assignment operator
-        unique_ptr& operator=(const unique_ptr& other) = delete;
-        // Move assingment operator
+        // Move assignment operator
         unique_ptr& operator=(unique_ptr&& other) noexcept {
             if(this == &other){
                 return *this;
             }
-            delete ptr_;
+            if(ptr_) delete ptr_;
             ptr_ = std::exchange(other.ptr_, nullptr);
             return *this;
         }
+        // Delete the copy assignment operator
+        unique_ptr& operator=(const unique_ptr& other) = delete;
+        // Delete the copy constructor
+        unique_ptr(const unique_ptr& other) = delete;
         // Dereference operator
         T& operator*(){
             return *ptr_;
@@ -47,11 +47,15 @@ namespace JS{
             return ptr_;
         }
         // Get function 
+        T* get() {
+            return ptr_;
+        }
         T* get() const {
             return ptr_;
         }
-        void reset(T* p){
-            delete ptr_;
+        void reset(T* p = nullptr){
+            if(p == ptr_) return;
+            if(ptr_) delete ptr_;
             ptr_ = p;
         }
         void release(){

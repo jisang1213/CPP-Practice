@@ -22,7 +22,9 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 # add_executable(fold src/implementation/fold.cpp)
 # add_executable(string src/implementation/string.cpp)
 # add_executable(threads src/threads.cpp)
-add_executable(crtp src/crtp.cpp)
+# add_executable(crtp src/crtp.cpp)
+# add_executable(threadpool src/threadpool.cpp)
+add_executable(async src/async.cpp)
 
 
 # # Specify the source files for each executable
